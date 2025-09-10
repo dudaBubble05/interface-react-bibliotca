@@ -42,7 +42,7 @@ function TabelaLivro(): JSX.Element {
                 href={APP_ROUTES.ROUTE_CADASTRO_LIVRO}
                 className={estilo['anc-pag-cadastro']}
             >
-                CADASTRAR ALUNO
+                CADASTRAR LIVRO
             </a>
 
             {/* Componente DataTable da PrimeReact, responsável por exibir os dados em forma de tabela */}

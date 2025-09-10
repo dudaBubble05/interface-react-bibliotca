@@ -9,7 +9,7 @@ function PCadastroAluno() {
             <Cabecalho />
 
             {/* Renderiza o formulário de login */}
-            <FormAluno />
+             <FormAluno /> 
 
             {/* Renderiza o rodapé da página */}
             <Rodape />
