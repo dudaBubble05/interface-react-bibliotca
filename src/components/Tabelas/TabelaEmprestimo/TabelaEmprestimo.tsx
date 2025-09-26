@@ -33,6 +33,23 @@ function TabelaEmprestimo(): JSX.Element {
         fetchEmprestimos(); // Executa a função de busca
     }, []); // Array vazio indica que esse efeito será executado apenas uma vez (componenteDidMount)
 
+    const deletar = async (emprestimo: EmprestimoDTO) => {
+    const confirmar = window.confirm(`Deseja mesmo remover o empréstimo do aluno ${emprestimo.aluno.nome} referente ao livro ${emprestimo.livro.titulo}?`);
+
+    if (confirmar && typeof emprestimo.idEmprestimo === 'number') {
+        const removido = await EmprestimoRequests.removerEmprestimo(emprestimo.idEmprestimo);
+
+        if (removido) {
+            window.location.reload(); // atualiza a página
+        } else {
+            alert('Erro ao remover empréstimo');
+        }
+    } else if (confirmar) {
+        alert('ID do empréstimo inválido.');
+    }
+};
+
+
     return (
         <main>
             {/* Título da tabela com classe personalizada */}
@@ -93,6 +110,21 @@ function TabelaEmprestimo(): JSX.Element {
 
                 {/* Coluna com o status do empréstimo (ex: "pendente", "devolvido") */}
                 <Column field="statusEmprestimo" header="Status do empréstimo" headerStyle={{ backgroundColor: 'var(--cor-primaria)', color: 'var(--font-color)'}} style={{ width: '15%', color: 'var(--font-color)' }} />
+
+                <Column
+                    field="idEmprestimo"
+                    header="Ação"
+                    headerStyle={{ backgroundColor: 'var(--cor-primaria)', color: 'var(--font-color)' }}
+                    style={{ width: '15%', color: 'var(--font-color)' }}
+                    body={(rowdata) => (
+                        <>
+                            <button style={{width: '100%'}}
+                                    onClick={() => deletar(rowdata)}
+                            >DELETAR</button>
+                        </>
+                    )}
+                />            
+            
             </DataTable>
         </main>
     );
