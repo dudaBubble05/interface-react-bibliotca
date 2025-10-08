@@ -1,5 +1,6 @@
 // Importa as configurações do servidor a partir de um arquivo externo
 import { SERVER_CFG } from "../appConfig";
+import FormLivro from "../components/Formularios/FormLivro/FormLivro";
 import LivroDTO from "../interfaces/LivroInterface";
 
 /**
@@ -105,6 +106,31 @@ class LivroRequests {
             return false;
         }
     }    
+
+    async atualizarLivro (formLivro: LivroDTO): Promise<boolean> {
+        const token = localStorage.getItem('token');
+
+        try {
+            const respostaAPI = await fetch(`${this.serverURL}${this.routeAtualizaLivro} ?idLivro=${formLivro.idLivro}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formLivro)
+            });
+
+            if(!respostaAPI.ok) {
+                throw new Error('Erro ao fazer requisição com o servidor.');
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error(`Erro ao enviar requisição.${error}`);
+            return false;
+        }
+    }
 }
 
 // Exporta a classe já com um objeto instanciado para ser usado diretamente

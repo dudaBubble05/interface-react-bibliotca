@@ -107,6 +107,31 @@ class EmprestimoRequests {
             return false;
         }
     }
+
+    async atualizarEmprestimo (formEmprestimo: EmprestimoDTO): Promise<boolean> {
+        const token = localStorage.getItem('token');
+
+        try {
+            const respostaAPI = await fetch(`${this.serverURL}${this.routeAtualizaEmprestimo} ?idEmprestimo=${formEmprestimo.idEmprestimo}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formEmprestimo)
+            });
+
+            if(!respostaAPI.ok) {
+                throw new Error('Erro ao fazer requisição com o servidor.');
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error(`Erro ao enviar requisição.${error}`);
+            return false;
+        }
+    }
 }
 
 // Exporta a classe já instanciada, pronta para ser utilizada em outras partes do sistema
